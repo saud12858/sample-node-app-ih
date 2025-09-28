@@ -1,4 +1,4 @@
-name: CI Pipeline with SonarQube
+name: CI Pipeline with SonarQube2
 
 on:
   workflow_dispatch:
@@ -33,11 +33,9 @@ jobs:
           npm run build 2>/dev/null || echo "No build script found, skipping build step"
 
       - name: Run unit tests with coverage and JUnit reports
+        run: npm run test:ci
         env:
           JEST_JUNIT_OUTPUT: coverage/junit.xml
-        run: |
-          npm install --save-dev jest-junit
-          npm run test:ci
 
       - name: Publish test results to Checks
         uses: dorny/test-reporter@v1
@@ -48,7 +46,7 @@ jobs:
           reporter: jest-junit
           fail-on-error: true
 
-      - name: Upload test results as artifacts
+      - name: Upload test results artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -63,13 +61,14 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=sample-node-app-saurabh
+            -Dsonar.projectKey=sample-node-app
             -Dsonar.organization=sda
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,coverage/**,tests/**,**/*.test.js,**/*.spec.js
             -Dsonar.tests=tests/
             -Dsonar.test.inclusions=**/*.test.js,**/*.spec.js
             -Dsonar.coverage.exclusions=node_modules/**,coverage/**,tests/**,**/*.test.js,**/*.spec.js
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
       - name: Create deployment package
         run: |
