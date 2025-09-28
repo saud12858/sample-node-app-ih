@@ -42,8 +42,7 @@ jobs:
         if: always()
         with:
           name: Jest Test Results
-          path: coverage/clover.xml
-          reporter: junit
+          path: coverage/junit.xml
           fail-on-error: true
 
       - name: Upload test results artifacts
