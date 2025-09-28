@@ -43,7 +43,6 @@ jobs:
         with:
           name: Jest Test Results
           path: coverage/junit.xml
-          reporter: junit
           fail-on-error: true
 
       - name: Upload test results artifacts
