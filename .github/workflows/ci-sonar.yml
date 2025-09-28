@@ -1,4 +1,4 @@
-name: CI Pipeline with SonarQube2
+name: CI Pipeline with SonarQube3
 
 on:
   workflow_dispatch:
@@ -42,7 +42,8 @@ jobs:
         if: always()
         with:
           name: Jest Test Results
-          path: coverage/junit.xml
+          path: junit.xml
+          reporter: junit
           fail-on-error: true
 
       - name: Upload test results artifacts
